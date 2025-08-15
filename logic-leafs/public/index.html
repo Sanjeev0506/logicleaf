@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logic Leafs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              inter: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              leaf: {
+                light: '#f1f8e9',
+                DEFAULT: '#66bb6a',
+                dark: '#2e7d32',
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="font-inter bg-leaf-light text-leaf-dark relative overflow-hidden">
+    <canvas id="bg-canvas" class="absolute inset-0 z-0"></canvas>
+    <div id="root" class="relative z-10"></div>
+    <script>
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const dots = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: Math.random() * 0.5,
+        dy: Math.random() * 0.5,
+      }));
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dots.forEach(dot => {
+          ctx.beginPath();
+          ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
+          ctx.fillStyle = '#66bb6a33';
+          ctx.fill();
+          dot.x += dot.dx;
+          dot.y += dot.dy;
+          if (dot.x > canvas.width || dot.x < 0) dot.dx *= -1;
+          if (dot.y > canvas.height || dot.y < 0) dot.dy *= -1;
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
+  </body>
+</html>
